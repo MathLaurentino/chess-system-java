@@ -1,6 +1,10 @@
 package application;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 import chess.ChessPiece;
+import chess.ChessPosition;
 import chess.Color;
 
 public class UI {
@@ -26,6 +30,26 @@ public class UI {
 	public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
 	public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
+
+    /**
+     * Reads the user input for a chess position.
+     */
+    public static ChessPosition readChessPosition(Scanner sc) {
+        try {
+            String s = sc.nextLine();
+            char column = s.charAt(0);
+            int row = Integer.parseInt(s.substring(1));
+            return new ChessPosition(column, row);
+        } 
+        catch (RuntimeException e) {
+            throw new InputMismatchException("Error reading ChessPosition. Valid values are from a1 to h8.");
+        }
+    }
+
+
+    /**
+     * Prints the current state of the chess board.
+     */
     public static void printBoard(ChessPiece[][] pieces) {
         for (int i=0; i<pieces.length; i++) {
             System.out.print((8 - i) + " ");
@@ -37,6 +61,12 @@ public class UI {
         System.out.println("  a b c d e f g h");
     }
 
+    
+    /**
+     * Prints the representation of a chess piece on the console.
+     * If the piece is null, it prints a hyphen (-) to represent an empty space.
+     * If the piece is not null, it prints the piece in the appropriate color.
+     */
     private static void printPiece(ChessPiece piece) {
         if (piece == null) {
             System.out.print("-");

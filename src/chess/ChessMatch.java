@@ -1,6 +1,8 @@
 package chess;
 
 import boardgame.Board;
+import boardgame.Piece;
+import boardgame.Position;
 import chess.pieces.King;
 import chess.pieces.Rook;
 
@@ -15,6 +17,10 @@ public class ChessMatch {
     }
 
 
+    /**
+     * Retrieves the current configuration of chess pieces on the board.
+     * @return a matrix representing the current configuration of chess pieces.
+     */
     public ChessPiece[][] getPieces() {
         ChessPiece[][] mat = new ChessPiece[board.getRows()][board.getColumns()];
 
@@ -27,9 +33,47 @@ public class ChessMatch {
         return mat;
     }
 
+
+    /**
+     * Performs a chess move from the source position to the target position.
+     * @param sourcePosition the source position of the move
+     * @param targetPosition the target position of the move
+     * @return the captured piece, if any
+     */
+    public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
+        Position source = sourcePosition.toPosition();
+        Position target = targetPosition.toPosition();
+        validateSourcePosition(source);
+        Piece capturedPiece = makeMove(source, target);
+        return (ChessPiece) capturedPiece;
+    }
+
+
+    /**
+     * Validates the source position for a chess move.
+     */
+    private void validateSourcePosition(Position position) {
+        if (!board.thereIsAPiece(position)) {
+            throw new ChessException("There is no piece on source position");
+        }
+    }
+
+
+    /**
+     * Makes a move from the source position to the target position.
+     */
+    private Piece makeMove(Position source, Position target) {
+        Piece p = board.removePiece(source);
+        Piece capturedPiece = board.removePiece(target);
+        board.placePiece(p, target);
+        return capturedPiece;
+    }
+
+
     private void placeNewPiece(char column, int row, ChessPiece piece) {
         board.placePiece(piece, new ChessPosition(column, row).toPosition());
     }
+
 
     private void initialSetup() {
         placeNewPiece('c', 1, new Rook(board, Color.WHITE));
