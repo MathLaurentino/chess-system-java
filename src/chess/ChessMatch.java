@@ -34,6 +34,13 @@ public class ChessMatch {
     }
 
 
+    public boolean[][] possibleMoves(ChessPosition sourcePosition) {
+        Position position = sourcePosition.toPosition();
+        validateSourcePosition(position);
+        return board.getPiece(position).possibleMoves();
+    }
+
+
     /**
      * Performs a chess move from the source position to the target position.
      * @param sourcePosition the source position of the move

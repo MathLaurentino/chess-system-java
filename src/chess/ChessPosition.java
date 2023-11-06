@@ -22,13 +22,21 @@ public class ChessPosition {
 
     // -------- METHODS -------- //
 
+    /**
+     * Convert a ChessPosition to a boardgame.Position
+     */
     protected Position toPosition() {
         return new Position(8 - row, column - 'a');
     }
 
+
+    /**
+     * Convert a boardgame.Position to a ChessPosition
+     */
     protected static ChessPosition fromPosition(Position position) {
         return new ChessPosition((char)('a' - position.getColumn()), 8 - position.getRow());
     }
+
 
     @Override
     public String toString() {
