@@ -59,8 +59,8 @@ public class UI {
 
 
     /**
-     * Prints the current state of the chess match. 
-     * (it prints the board, the match turn and the corrent player)
+     * Prints the current state of the chess match.
+     * <p> (it prints the board + some informations) 
      */
     public static void printMatch(ChessMatch chessMatch, List<ChessPiece> captured) {
         printBoard(chessMatch.getPieces());
@@ -68,6 +68,9 @@ public class UI {
         System.out.println();
         System.out.println("Turn: " + chessMatch.getTurn());        
         System.out.println("Corrent player: " + chessMatch.getCurrentPlayer());
+        if (chessMatch.getCheck()) {
+            System.out.println("CHECK");
+        }
     }
 
 
